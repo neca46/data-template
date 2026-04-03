@@ -1,0 +1,14 @@
+# CODEOWNERS template
+#
+# Replace the example owners below with real GitHub usernames or teams,
+# then uncomment the lines you want to activate.
+#
+# CODEOWNERS + branch protection can make code owner review required.
+# This only becomes mandatory if the repository enables the relevant
+# branch protection setting in GitHub.
+#
+# Examples:
+# * @your-github-username
+# .github/ @your-github-username
+# src/ @your-team
+# tests/ @your-github-username
