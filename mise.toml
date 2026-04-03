@@ -1,0 +1,34 @@
+[tools] 
+uv = "0.11.2" 
+
+# define env from .env/{{env}}/.env 
+[env] 
+_.file = ".env/{{ get_env(name='MISE_ENV', default='staging') }}/.env" 
+
+[tasks.lint] 
+description = "Check lint violations." 
+run = "uv run ruff check ." 
+
+[tasks.lint-fix] 
+description = "Fix lint violations where possible." 
+run = "uv run ruff check . --fix" 
+
+[tasks.format] 
+description = "Format code." 
+run = "uv run ruff format ." 
+
+[tasks.format-check] 
+description = "Check formatting without modifying files." 
+run = "uv run ruff format . --check" 
+
+[tasks.typecheck] 
+description = "Check types." 
+run = "uv run ty check ." 
+
+[tasks.test] 
+description = "Run the test suite." 
+run = "uv run pytest" 
+
+[tasks.check] 
+description = "Run all non-modifying checks." 
+run = "uv run ruff check . && uv run ruff format . --check && uv run ty check . && uv run pytest" 
