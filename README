@@ -1,0 +1,102 @@
+# Python Template
+
+Minimal template for Python repos using `uv`, `mise`, `ruff`, `ty`, and `pytest`.
+
+## Prerequisites
+
+Install [mise](https://mise.jdx.dev):
+
+```bash
+brew install mise
+echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
+source ~/.zshrc
+```
+
+## Setup
+
+```bash
+git clone <this-repo-url>
+cd cloned-project
+mise install
+uv sync
+```
+
+## Environment Variables
+
+This template uses `mise` to load environment-specific files from `.env/<env>/.env`.
+
+Use `.env.example` as the starting point for each local environment:
+
+```bash
+mkdir -p .env/staging
+cp .env.example .env/staging/.env
+```
+
+Examples:
+
+```bash
+mkdir -p .env/staging
+cp .env.example .env/staging/.env
+
+mkdir -p .env/production
+cp .env.example .env/production/.env
+```
+
+By default, `mise` loads `.env/staging/.env`. To switch environments, set `MISE_ENV`:
+
+```bash
+MISE_ENV=production mise run test
+MISE_ENV=staging mise run check
+```
+
+For a longer shell session, export it once:
+
+```bash
+export MISE_ENV=staging
+mise run check
+mise run test
+```
+
+Keep secrets and machine-specific values in `.env/<env>/.env`. These files are ignored by git, while `.env.example` stays committed as the shared blueprint.
+
+## Project Layout
+
+```text
+.
+├── pyproject.toml
+├── README.md
+├── mise.toml
+├── src/
+│ └── data_template/
+│ └── main.py
+└── tests/
+    └── test_main.py
+```
+
+## Development
+
+Run the app:
+
+```bash
+uv run python src/data_template/main.py
+```
+
+Run quality checks:
+
+```bash
+mise run lint
+mise run lint-fix
+mise run format
+mise run format-check
+mise run typecheck
+mise run test
+mise run check
+```
+
+Or run the tools directly:
+
+```bash
+uv run ruff check .
+uv run ruff format .
+uv run ty check .
+uv run pytest
