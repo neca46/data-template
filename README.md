@@ -9,7 +9,8 @@ Install [mise](https://mise.jdx.dev):
 ```bash
 brew install mise
 echo 'eval "$(mise activate zsh)"' >> ~/.zshrc
-source ~/.zshrc
+
+
 ```
 
 ## Setup
