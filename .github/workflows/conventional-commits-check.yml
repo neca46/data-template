@@ -1,0 +1,30 @@
+name: "Conventional Commits Check"
+on:
+  pull_request:
+
+jobs:
+  conventional-commits-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Contains at least one conventional commit message
+        run: |
+          COMMIT_MESSAGES=$(git log --format=%B ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
+          COUNT_VALID=0
+          while IFS= read -r msg; do
+            if echo "$msg" | grep -qE "^(feat|fix|chore|build|ci|docs|perf|refactor|style|test|revert)(\(.*\))?!?: .+"; then
+              echo "Commit message \"$msg\" adheres to the Conventional Commits Specification"
+              COUNT_VALID=$((COUNT_VALID+1))
+            else
+              echo "WARNING: Commit message \"$msg\" DOES NOT adhere to the Conventional Commits Specification"
+            fi
+          done < <(echo "$COMMIT_MESSAGES" | grep -v '^$') # Remove empty lines
+          if [ $COUNT_VALID -eq 0 ]; then
+            echo "ERROR: Not a single commit message adheres to the Conventional Commits Specification"
+            exit 1
+          fi
+          
