@@ -1,5 +1,6 @@
 from data_template.main import main
 
+
 def test_main_print_greetings(capsys):
     main()
 
